@@ -20,12 +20,35 @@ export const getPersonByID = async (_req, res) => {
   }
 };
 
-export const deletePersonByID = () => {
-  return;
+export const deletePersonByID = async (_req, res) => {
+  const { id } = _req.params;
+  try {
+    const person = await Person.findByIdAndRemove(id);
+    if (!person) {
+      return res.status(404).json({ success: false, person: 'No found' });
+    }
+    return res.status(200).json({ success: true, delete: person });
+  } catch (error) {
+    return res.status(404).json({
+      error: error,
+    });
+  }
 };
 
-export const updatePersonByID = () => {
-  return;
+export const updatePersonByEmail = async (_req, res) => {
+  const { id } = _req.params;
+  console.log(id);
+  try {
+    const person = await Person.findOneAndUpdate({ email: id }, _req.body);
+    return res.status(200).json({
+      message: 'Management of PATCH requests by email on /person',
+      updatePerson: { id: person._id, ..._req.body },
+    });
+  } catch (error) {
+    return res.status(404).json({
+      error: error,
+    });
+  }
 };
 
 export const login = () => {

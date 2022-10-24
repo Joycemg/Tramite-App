@@ -3,7 +3,7 @@ import {
   getPeople,
   getPersonByID,
   deletePersonByID,
-  updatePersonByID,
+  updatePersonByEmail,
   register,
   login,
 } from '../controllers/person.controller.js';
@@ -11,9 +11,11 @@ import {
 const router = Router();
 
 router.get('/people', getPeople);
-router.route('/person/:id').get(getPersonByID);
-// .put(updatePersonByID)
-// .delete(deletePersonByID);
+router
+  .route('/person/:id')
+  .get(getPersonByID)
+  .delete(deletePersonByID)
+  .patch(updatePersonByEmail);
 router.post('/register', register);
 router.post('/login', login);
 
