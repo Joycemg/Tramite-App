@@ -6,16 +6,10 @@ const formalitySchema = new Schema(
   {
     title: { type: String, require: true },
     description: { type: String, default: null },
-    Date: {
+    createdAt: {
       type: Date,
-      default: Date.now,
-      transform: (date) =>
-        date.toLocaleDateString('en-us', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        }),
+      require: true,
+      default: new Date(),
     },
     createdBy: { type: Schema.Types.ObjectId, ref: 'Person', require: true },
   },

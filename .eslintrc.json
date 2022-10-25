@@ -10,13 +10,21 @@
     "sourceType": "module"
   },
   "rules": {
+    "object-curly-newline": 0,
+    "no-console": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|trace)$/]",
+        "message": "borrar console.log despues de usar"
+      }
+    ],
     "import/extensions": [
       "error",
       "always",
       {
         "ignorePackages": true,
-        "js": "never",
-        "no-console": "off"
+        "js": "never"
       }
     ]
   }

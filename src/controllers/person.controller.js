@@ -15,7 +15,7 @@ export const getPersonByID = async (_req, res) => {
     });
   } catch (error) {
     return res.status(404).json({
-      error: error,
+      message: error,
     });
   }
 };
@@ -30,37 +30,41 @@ export const deletePersonByID = async (_req, res) => {
     return res.status(200).json({ success: true, delete: person });
   } catch (error) {
     return res.status(404).json({
-      error: error,
+      message: error,
     });
   }
 };
 
 export const updatePersonByEmail = async (_req, res) => {
   const { id } = _req.params;
-  console.log(id);
   try {
     const person = await Person.findOneAndUpdate({ email: id }, _req.body);
     return res.status(200).json({
       message: 'Management of PATCH requests by email on /person',
-      updatePerson: { id: person._id, ..._req.body },
+      updatePerson: { id: person.id, ..._req.body },
     });
   } catch (error) {
     return res.status(404).json({
-      error: error,
+      message: error,
     });
   }
 };
 
-export const login = () => {
-  return;
-};
+// export const login = () => {
+//   return;
+// };
 
 export const register = async (req, res) => {
   const { name, surname, age, email, password } = req.body;
   const person = await Person.findOne({ email });
-  if (person)
-    return res.status(403).json({ error: { message: 'Email already in use!' } });
-  const newUser = new Person({ name, surname, age, email, password });
+  if (person) return res.status(403).json({ error: { message: 'Email already in use!' } });
+  const newUser = new Person({
+    name,
+    surname,
+    age,
+    email,
+    password,
+  });
   try {
     await newUser.save();
     return res.status(201).json({
@@ -69,7 +73,7 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     return res.status(404).json({
-      error: error,
+      message: error,
     });
   }
 };
