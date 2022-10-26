@@ -21,9 +21,9 @@ const personSchema = new Schema(
     versionKey: false,
   },
 );
-const emailValidate = (value) => {
-  return /^.+@.+\..+$/.test(value);
-};
+// const emailValidate = (value) => {
+//   return /^.+@.+\..+$/.test(value);
+// };
 
 const Person = mongoose.model('Person', personSchema);
 export default Person;

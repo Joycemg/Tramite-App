@@ -2,21 +2,22 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const formalitySchema = new Schema(
+const procedureSchema = new Schema(
   {
     title: { type: String, require: true },
     description: { type: String, default: null },
+    type: { type: String, require: true, default: 'Documentacion' },
     createdAt: {
       type: Date,
       require: true,
       default: new Date(),
     },
-    createdBy: { type: Schema.Types.ObjectId, ref: 'Person', require: true },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'Person' },
   },
   {
-    collection: 'Formalities',
+    collection: 'Procedures',
     versionKey: false,
   },
 );
 
-export default mongoose.model('Formality', formalitySchema);
+export default mongoose.model('procedure', procedureSchema);
