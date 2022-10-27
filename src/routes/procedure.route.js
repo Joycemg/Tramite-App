@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.get('/procedures', getProcedures);
+router.get('/procedures/:id', getProcedures);
 router
   .route('/procedure/:id')
   .get(getProcedureByID)

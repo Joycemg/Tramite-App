@@ -12,6 +12,7 @@ const personSchema = new Schema(
       requiere: true,
       unique: true,
       lowerclase: true,
+
       // validate: [emailValidate(), 'Error format'],
     },
     password: { type: String, requiere: true },
@@ -21,6 +22,7 @@ const personSchema = new Schema(
     versionKey: false,
   },
 );
+
 // const emailValidate = (value) => {
 //   return /^.+@.+\..+$/.test(value);
 // };

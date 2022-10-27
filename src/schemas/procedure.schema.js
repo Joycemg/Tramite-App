@@ -5,14 +5,13 @@ const { Schema } = mongoose;
 const procedureSchema = new Schema(
   {
     title: { type: String, require: true },
-    description: { type: String, default: null },
+    description: { type: String, require: true },
     type: { type: String, require: true, default: 'Documentacion' },
     createdAt: {
       type: Date,
-      require: true,
       default: new Date(),
     },
-    createdBy: { type: Schema.Types.ObjectId, ref: 'Person' },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'Person', require: true },
   },
   {
     collection: 'Procedures',

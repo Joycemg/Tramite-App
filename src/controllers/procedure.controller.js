@@ -1,15 +1,45 @@
+/* eslint-disable max-len */
 import Procedure from '../schemas/procedure.schema.js';
 import Person from '../schemas/person.schema.js';
 
-export const getProcedures = async (_req, res) => {
-  const procedures = await Procedure.find({});
-  return res.status(200).send(procedures);
-};
+// export const getProcedures = async (_req, res) => {
+//   const { id } = _req.params;
+//   try {
+//     const procedures = await Procedure.find({ createdBy: id });
+//     return res.status(200).json({
+//       message: 'Processing of the GET response by ID to /procedure',
+//       response: procedures,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       message: error,
+//     });
+//   }
+// };
 
+export const getProcedures = async (_req, res) => {
+  const { id } = _req.params;
+
+  try {
+    let procedures = await Procedure.find({ type: id }).populate('createdBy');
+    if (!procedures.length) {
+      procedures = await Procedure.find({ createdBy: id }).populate('createdBy');
+    }
+
+    return res.status(200).json({
+      message: 'Processing of the GET response by ID to /procedures',
+      response: procedures,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
+  }
+};
 export const getProcedureByID = async (_req, res) => {
   const { id } = _req.params;
   try {
-    const procedure = await Procedure.findById(id);
+    const procedure = await Procedure.findById(id).populate('createdBy');
     return res.status(200).json({
       message: 'Processing of the GET response by ID to /procedure',
       response: procedure,
