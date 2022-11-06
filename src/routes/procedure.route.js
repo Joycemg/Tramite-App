@@ -1,20 +1,22 @@
 import { Router } from 'express';
+import passport from 'passport';
 import {
-  getProcedures,
-  getProcedureByID,
+  seeProcedures,
+  seeProcedure,
   insertProcedure,
   updateProcedureById,
   deleteProcedureById,
 } from '../controllers/procedure.controller.js';
 
 const router = Router();
+const jwt = passport.authenticate('jwt', { session: false });
 
-router.get('/procedures/:id', getProcedures);
+router.get('/procedures', seeProcedures, jwt);
 router
   .route('/procedure/:id')
-  .get(getProcedureByID)
-  .patch(updateProcedureById)
-  .delete(deleteProcedureById);
-router.post('/procedure', insertProcedure);
+  .get(jwt, seeProcedure)
+  .patch(jwt, updateProcedureById)
+  .delete(jwt, deleteProcedureById)
+  .post(jwt, insertProcedure);
 
 export default router;

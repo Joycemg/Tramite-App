@@ -1,20 +1,22 @@
 import { Router } from 'express';
+import passport from 'passport';
 import {
-  getPeople,
-  getPersonByID,
-  deletePersonByID,
-  updatePersonByEmail,
-  register,
-
-  // login,
+  addPerson,
+  seePerson,
+  eliminateThePerson,
+  updatePersonalData,
+  seePeople,
 } from '../controllers/person.controller.js';
 
+const jwt = passport.authenticate('jwt', { session: false });
 const router = Router();
 
-router.get('/people', getPeople);
-
-router.route('/person/:id').get(getPersonByID).delete(deletePersonByID).patch(updatePersonByEmail);
-router.post('/register', register);
-// router.post('/login', login);
+router.get('/people', jwt, seePeople);
+router.post('/person', jwt, addPerson);
+router
+  .route('/person/:id')
+  .get(jwt, seePerson)
+  .delete(jwt, eliminateThePerson)
+  .patch(jwt, updatePersonalData);
 
 export default router;

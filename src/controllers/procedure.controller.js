@@ -1,115 +1,76 @@
-/* eslint-disable max-len */
-import Procedure from '../schemas/procedure.schema.js';
-import Person from '../schemas/person.schema.js';
+import service from '../service/procedure.service.js';
 
-// export const getProcedures = async (_req, res) => {
-//   const { id } = _req.params;
-//   try {
-//     const procedures = await Procedure.find({ createdBy: id });
-//     return res.status(200).json({
-//       message: 'Processing of the GET response by ID to /procedure',
-//       response: procedures,
-//     });
-//   } catch (error) {
-//     return res.status(404).json({
-//       message: error,
-//     });
-//   }
-// };
-
-export const getProcedures = async (_req, res) => {
-  const { id } = _req.params;
-
+export const seeProcedures = async (_req, res) => {
   try {
-    let procedures = await Procedure.find({ type: id }).populate('createdBy');
-    if (!procedures.length) {
-      procedures = await Procedure.find({ createdBy: id }).populate('createdBy');
-    }
+    const procedure = await service.getProcedures(_req);
 
     return res.status(200).json({
-      message: 'Processing of the GET response by ID to /procedures',
-      response: procedures,
+      message: 'Processing of the GET response by id on /precedures',
+      resp: procedure,
     });
   } catch (error) {
     return res.status(404).json({
-      message: error,
-    });
-  }
-};
-export const getProcedureByID = async (_req, res) => {
-  const { id } = _req.params;
-  try {
-    const procedure = await Procedure.findById(id).populate('createdBy');
-    return res.status(200).json({
-      message: 'Processing of the GET response by ID to /procedure',
-      response: procedure,
-    });
-  } catch (error) {
-    return res.status(404).json({
-      message: error,
+      message: error.message,
     });
   }
 };
 
 export const insertProcedure = async (_req, res) => {
-  const { title, description, type, email } = _req.body;
-  const person = await Person.findOne({ email });
-  if (!person) return res.status(404).json({ error: { message: 'Email does not exist!' } });
-
-  const newProcedure = new Procedure({
-    title,
-    description,
-    type,
-  });
-
-  newProcedure.createdBy = person.id;
   try {
-    const procedure = await newProcedure.save();
+    const procedure = await service.postProcedure(_req);
 
-    const { _doc } = { ...procedure };
-
-    // console.log(formality.createdAt.toLocaleDateString('en-US'));
     return res.status(200).json({
-      message: 'Handling POST requests to /Procedure',
-      response: {
-        ..._doc,
-        createdAt: _doc.createdAt.toLocaleDateString('en-US'),
-      },
+      message: 'Management of Post requests by id on /precedure',
+      resp: procedure,
     });
   } catch (error) {
     return res.status(404).json({
-      message: error,
+      message: error.message,
+    });
+  }
+};
+
+export const seeProcedure = async (_req, res) => {
+  try {
+    const procedure = await service.getProceduresByPerson(_req.params);
+
+    return res.status(200).json({
+      message: 'Processing of the GET response by id on /precedure',
+      resp: procedure,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: error.message,
     });
   }
 };
 
 export const updateProcedureById = async (_req, res) => {
-  const { id } = _req.params;
-
   try {
-    const procedure = await Procedure.findOneAndUpdate({ _id: id }, _req.body);
+    const procedure = await service.patchProcedures(_req);
+
     return res.status(200).json({
-      message: 'Management of PATCH requests by id on /precedure',
-      updateProcedure: { id: procedure.id, ..._req.body },
+      message: 'Processing of the Patch response by id on /precedure',
+      resp: procedure,
     });
   } catch (error) {
     return res.status(404).json({
-      message: error,
+      message: error.message,
     });
   }
 };
 
 export const deleteProcedureById = async (_req, res) => {
-  const { id } = _req.params;
   try {
-    const procedure = await Procedure.findByIdAndRemove(id);
-    if (!procedure) {
-      return res.status(404).json({ success: false, person: 'No found' });
-    }
-    return res.status(200).json({ success: true, delete: procedure });
+    const procedure = await service.deleteProcedure(_req);
+
+    return res.status(200).json({
+      message: 'Processing of the delete response by id on /precedure',
+      resp: procedure,
+    });
   } catch (error) {
     return res.status(404).json({
-      message: error,
+      message: error.message,
     });
   }
 };

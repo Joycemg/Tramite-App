@@ -6,12 +6,16 @@ const procedureSchema = new Schema(
   {
     title: { type: String, require: true },
     description: { type: String, require: true },
-    type: { type: String, require: true, default: 'Documentacion' },
+    type: { type: String, require: true, default: 'Particular' },
     createdAt: {
       type: Date,
       default: new Date(),
     },
-    createdBy: { type: Schema.Types.ObjectId, ref: 'Person', require: true },
+    closingDate: {
+      type: Date,
+    },
+    key: { type: String, require: true },
+    from: { type: Schema.Types.ObjectId, ref: 'Person', require: true },
   },
   {
     collection: 'Procedures',
@@ -19,4 +23,4 @@ const procedureSchema = new Schema(
   },
 );
 
-export default mongoose.model('procedure', procedureSchema);
+export default mongoose.model('Procedure', procedureSchema);
