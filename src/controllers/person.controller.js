@@ -1,4 +1,4 @@
-import service from '../service/person.service.js';
+import service from '../services/person.service.js';
 
 export const addPerson = async (_req, res) => {
   try {

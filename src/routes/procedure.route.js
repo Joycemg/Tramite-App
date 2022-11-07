@@ -11,7 +11,7 @@ import {
 const router = Router();
 const jwt = passport.authenticate('jwt', { session: false });
 
-router.get('/procedures', seeProcedures, jwt);
+router.get('/procedures', jwt, seeProcedures);
 router
   .route('/procedure/:id')
   .get(jwt, seeProcedure)

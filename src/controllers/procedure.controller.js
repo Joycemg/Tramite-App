@@ -1,4 +1,4 @@
-import service from '../service/procedure.service.js';
+import service from '../services/procedure.service.js';
 
 export const seeProcedures = async (_req, res) => {
   try {

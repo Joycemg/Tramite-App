@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import personRouter from './routes/person.route.js';
 import authRouter from './routes/auth.route.js';
 import proceduresRouter from './routes/procedure.route.js';
-import { db } from './config/db.config.js';
+import db from './config/db.config.js';
 
 import './config/passport.config.js';
 

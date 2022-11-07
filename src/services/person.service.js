@@ -12,6 +12,13 @@ const postPerson = async (data) => {
     email,
   });
 
+  const DateOfBirth = {
+    year: data.body.DateOfBirth.year,
+    month: data.body.DateOfBirth.month,
+    day: data.body.DateOfBirth.day,
+  };
+
+  newPerson.DateOfBirth = DateOfBirth;
   newPerson.createdBy.idAdm = data.user.id;
   newPerson.createdBy.name = data.user.name;
   newPerson.createdBy.surname = data.user.surname;
@@ -33,7 +40,7 @@ const getPeople = async (query) => {
   } else {
     people = await Person.find();
   }
-  if (!people) throw new Error('No found people');
+  if (!people.length) throw new Error('No found people');
   return people;
 };
 
@@ -44,7 +51,7 @@ const getPerson = async (id) => {
 };
 
 const deletePerson = async (id) => {
-  const person = await Person.deleteOne({ dni: id });
+  const person = await Person.findOneAndDelete({ dni: id });
   if (!person) throw new Error('no found person');
   return person;
 };
